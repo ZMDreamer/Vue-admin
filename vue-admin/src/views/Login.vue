@@ -10,11 +10,12 @@
         <el-form-item prop = "password">
         <el-input v-model="form.password" placeholder="密码" prefix-icon="myicon myicon-key"></el-input>
       </el-form-item>
-        <el-button type="primary" class = "login-btn">登录</el-button>
+        <el-button type="primary" class = "login-btn" @click="submitForm('form')" >登录</el-button>
     </el-form>
   </div>
 </template>
 <script>
+import { checkLogin } from "@/api";
 export default {
   data() {
     return {
@@ -22,16 +23,35 @@ export default {
         username: "",
         password: ""
       },
-      rules:{
-        username:[
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
-        password:[
-          { required: true, message: '请输入密码', trigger: 'blur' }
-        ]
-    
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          checkLogin(this.form).then(res => {
+            if (res.meta.status === 200) {
+              //请求成功在浏览器记录token的值
+              localStorage.setItem('token',res.data.token)
+              this.$router.push({ path: '/Home'})
+            } else {
+              this.$message({
+                message: res.meta.msg,
+                type: "error"
+              });
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    }
   }
 };
 </script>
@@ -61,11 +81,10 @@ export default {
       border: 10px solid #fff;
       box-shadow: 0 1px 5px #ccc;
       overflow: hidden;
-   
-        img{
-          width: 100%;
-        }
-     
+
+      img {
+        width: 100%;
+      }
     }
     .login-btn {
       width: 100%;

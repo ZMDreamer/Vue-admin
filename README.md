@@ -25,3 +25,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
       1. 引入styles来覆盖、重置一些样式、通用样式等
       2. 安装相关处理sass相关的loader
 + 完成登录页面
+      1. 利用`localstorage`记录`token`的值以及`axios.interceptors.request`来完成发请求的拦截功能
+      2. 登录成功跳转到主路由页面
