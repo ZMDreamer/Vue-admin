@@ -8,7 +8,20 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
 Vue.use(ElementUI);
 Vue.config.productionTip = false
-
+router.beforeEach((to, from, next) => {
+  // to and from are both route objects
+  let token = localStorage.getItem('token')
+  if (token) {
+    next()
+    
+  }else{
+    if (to.path !== '/login') {
+      next({path:'/login'})
+    }else{
+      next()
+    }
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
