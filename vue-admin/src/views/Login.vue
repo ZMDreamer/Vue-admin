@@ -37,9 +37,11 @@ export default {
         if (valid) {
           checkLogin(this.form).then(res => {
             if (res.meta.status === 200) {
+              //改变公共数据的username
+              this.$store.commit('changeUsername',res.data.username)
               //请求成功在浏览器记录token的值
               localStorage.setItem('token',res.data.token)
-              this.$router.push({ path: '/Home'})
+              this.$router.push({ path: '/'})
             } else {
               this.$message({
                 message: res.meta.msg,
