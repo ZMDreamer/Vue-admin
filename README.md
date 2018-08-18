@@ -27,3 +27,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 + 完成登录页面
       1. 利用`localstorage`记录`token`的值以及`axios.interceptors.request`来完成发请求的拦截功能
       2. 登录成功跳转到主路由页面
+      3. 利用`router.beforEach`完成router拦截功能
