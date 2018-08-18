@@ -9,6 +9,7 @@ import '@/styles/index.scss'
 import Vuex from 'vuex'
 Vue.use(ElementUI);
 Vue.config.productionTip = false
+//路由拦截
 router.beforeEach((to, from, next) => {
   // to and from are both route objects
   let token = localStorage.getItem('token')

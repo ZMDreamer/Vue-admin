@@ -3,16 +3,24 @@
     <el-container>
       <el-aside width="auto">
         <div class="logo"></div>
-        <el-menu default-active="2" class="el-menu-admin" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff"
-          active-text-color="#ffd04b" :collapse="isCollapse" :router="true">
-          <el-submenu index="1">
+        <el-menu 
+          :router="true"
+          :unique-opened="true"
+          :collapse="isCollapse"
+          class="el-menu-admin"
+          @open="handleOpen"
+          @close="handleClose"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+          <el-submenu :index="firstLayerList.path" v-for="firstLayerList in leftMenuLists" :key="firstLayerList.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{firstLayerList.authName}}</span>
             </template>
-            <el-menu-item index="/user">
+            <el-menu-item :index='secondLayerList.path' v-for="secondLayerList in firstLayerList.children" :key="secondLayerList.id">
               <i class="el-icon-menu"></i>
-              <span slot="title">用户列表</span>
+              <span slot="title">{{secondLayerList.authName}}</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -34,11 +42,20 @@
   </div>
 </template>
 <script>
+  import {
+    getLeftMenus
+  } from '@/api'
   export default {
     data() {
       return {
-        isCollapse: false
+        isCollapse: false,
+        leftMenuLists: []
       }
+    },
+    created() {
+      getLeftMenus().then(res => {
+        this.leftMenuLists = res.data
+      })
     },
     methods: {
       handleOpen(key, keyPath) {},
@@ -56,7 +73,7 @@
   };
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .home {
     height: 100%;
     background-color: #eee;
